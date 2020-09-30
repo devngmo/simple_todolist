@@ -10,6 +10,8 @@
         <meta http-equiv="Expires" content="0">
 
         <link rel="stylesheet" href="http://localhost:8000/common/bootstrap.min.css">
+        <link rel="stylesheet" href="http://localhost:8000/common/common.css">
+        <link rel="stylesheet" href="http://localhost:8000/common/widget.css">
         
         <link rel="stylesheet" href="http://localhost:8000/fontawesome/fontawesome.min.css">
         <link rel="stylesheet" href="http://localhost:8000/fontawesome/regular.min.css">
@@ -30,23 +32,53 @@
         <script src="http://localhost:8000/vue/vue.js"></script>
         <script src="http://localhost:8000/common/cutils.js"></script>
         <script src="http://localhost:8000/sandbox/sandbox_storage.js"></script>
+        
+        <style>
+            .task-card {
+                padding: 5px 5px;
+                height: 80px;
+            }
+            .task-card.new {
+                
+            }
+            
+            .task-card.urgent {
+                background-color: #f00;
+                color: #fff;
+            }
+            
+            .task-card.done {
+                background-color: #28a745;
+                color: #fff;
+            }
+        </style>
     </head>
 
     <body>        
-        <div id="app">
+        <div id="app" class="v-flex">
           <div class="input-group mb-3">
             <input v-model="new_task" type="text" class="form-control" placeholder="Enter new task here">
             <div class="input-group-append">
-              <button class="btn btn-primary" @click="add"><i class="fa fa-plus"></i></button>
+              <button class="btn btn-danger" @click="add"><i class="fa fa-plus"></i></button>
+              <button class="btn btn-primary" @click="toggleList"><i class="fa fa-filter"></i>{{active_list_name}}</button>
             </div>
           </div>
             
-            <ul class="list-group">
-                <li class="list-group-item" v-for="(task, idx) in tasks" @click="deleteAt(idx)">
-                    {{task.title}}
+            <ul class="list-group f1">
+                <li :class="['list-group-item', 'task-card', 'nosel', task.status]" v-for="(task, idx) in tasks" @click="onClickTaskAt(idx)">
+                
+                    <span v-if="active_list=='todos'">
+                        <span :class="task.status=='urgent'?'':'imgone'"><i class="fa fa-fire"></i> </span>
+                        <span :class="task.status=='done'?'':'imgone'"><i class="fa fa-check"></i>  </span>
+                        <span :class="task.status=='new'?'':'imgone'"><i class="fa fa-square"></i>  </span>
+                    </span>
+                    
+                    <span>{{task.title}}</span>
+                    <button class="pull-right btn btn-danger" v-if="active_list == 'todos' && task.status == 'done'" @click="archiveAt(idx)"><i class="fa fa-trash"></i></button>
                 </li>
             </ul>
 
+     
 
             <div id="dlg-task-edit" class="modal" tabindex="-1">
                 <div class="modal-dialog">
