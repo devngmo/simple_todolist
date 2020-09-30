@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Simple Todolist</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta charset="utf-8"/>
+
+        <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+        <meta http-equiv="Pragma" content="no-cache">
+        <meta http-equiv="Expires" content="0">
+
+        <link rel="stylesheet" href="http://localhost:8000/common/bootstrap.min.css">
+        
+        <link rel="stylesheet" href="http://localhost:8000/fontawesome/fontawesome.min.css">
+        <link rel="stylesheet" href="http://localhost:8000/fontawesome/regular.min.css">
+        <link rel="stylesheet" href="http://localhost:8000/fontawesome/solid.min.css">
+
+        <script src="http://localhost:8000/jquery/jquery-3.4.1.min.js"></script>	
+        <script src="http://localhost:8000/common/popper.min.js"></script>	
+        <script src="http://localhost:8000/common/bootstrap.min.js"></script>
+        <script src="http://localhost:8000/common/notify.min.js"></script>
+        <script src="http://localhost:8000/common/axios.min.js"></script>
+        
+        
+        <script src="http://localhost:8000/fontawesome/fontawesome.min.js"></script>
+        <script src="http://localhost:8000/fontawesome/regular.min.js"></script>
+        <script src="http://localhost:8000/fontawesome/solid.min.js"></script>
+
+        
+        <script src="http://localhost:8000/vue/vue.js"></script>
+        <script src="http://localhost:8000/common/cutils.js"></script>
+        <script src="http://localhost:8000/sandbox/sandbox_storage.js"></script>
+    </head>
+
+    <body>        
+        <div id="app">
+          <div class="input-group mb-3">
+            <input v-model="new_task" type="text" class="form-control" placeholder="Enter new task here">
+            <div class="input-group-append">
+              <button class="btn btn-primary" @click="add"><i class="fa fa-plus"></i></button>
+            </div>
+          </div>
+            
+            <ul class="list-group">
+                <li class="list-group-item" v-for="(task, idx) in tasks" @click="deleteAt(idx)">
+                    {{task.title}}
+                </li>
+            </ul>
+
+
+            <div id="dlg-task-edit" class="modal" tabindex="-1">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title">Add new Task</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="input-group mb-3">
+                          <div class="input-group-prepend">
+                              <span class="input-group-text" id="title">Title</span>
+                          </div>
+                          <input v-model="task.title" type="text" class="form-control" placeholder="Task title" aria-label="title" aria-describedby="title">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                      <button type="button" class="btn btn-primary" data-dismiss="modal" @click="save">Save</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+        </div>
+
+        <script src="simple_todolist.js"></script>
+    </body>
+</html>
